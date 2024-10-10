@@ -83,9 +83,21 @@ int es_primo(){
 	int numero_primo;
 		printf("Elige un numero entre 1 y 10");
 		scanf("%d", &numero_primo);
+			if (numero_primo = 1 ||numero_primo = 2||numero_primo = 3 || numero_primo = 5 || numero_primo = 7){
+				printf("El numero es primo");
+			} if else (numero_primo = 4 || numero_primo = 6 || numero_primo = 8 ||numero_primo = 10){
+				printf("El numero no es primo");
+			}else{
+				printf("El numero es invalido");
+			}
 
 }
+int comparar_3_numeros(){
+	
+	
+}
 int main(){
+	int resultado_comparar_3_numeros;
 	int resultado_es_primo;
 	int resultado_convertir_hora_24_a_12;
 	int resultado_calcular_promedio;
@@ -105,7 +117,7 @@ int main(){
 		}else if(opcion == 5){
 	       		resultado_es_primo = es_primo();
 		}else if(opcion == 6){
-	       
+	      		resultado_comparar_3_numeros = comparar_3_numeros(); 
 		}else if(opcion == 7){
 	       		printf("Has decidido salir");
 		}else{
