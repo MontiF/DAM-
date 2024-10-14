@@ -83,9 +83,9 @@ int es_primo(){
 	int numero_primo;
 		printf("Elige un numero entre 1 y 10");
 		scanf("%d", &numero_primo);
-			if (numero_primo = 1 ||numero_primo = 2||numero_primo = 3 || numero_primo = 5 || numero_primo = 7){
+			if (numero_primo == 1 ||numero_primo == 2||numero_primo == 3 || numero_primo == 5 || numero_primo == 7){
 				printf("El numero es primo");
-			} if else (numero_primo = 4 || numero_primo = 6 || numero_primo = 8 ||numero_primo = 10){
+			} else if (numero_primo == 4 || numero_primo == 6 || numero_primo == 8 ||numero_primo == 10){
 				printf("El numero no es primo");
 			}else{
 				printf("El numero es invalido");
@@ -93,7 +93,20 @@ int es_primo(){
 
 }
 int comparar_3_numeros(){
-	
+	 int num1_com, num2_com, num3_com;
+			printf("Elige el primer numero\n");
+                        scanf("%d", &num1_com);
+                        printf("Elige el segundo numero\n");
+                        scanf("%d", &num2_com);
+                        printf("Elige el tercer numero\n");
+                        scanf("%d", &num3_com);
+		if (num1_com > num2_com && num1_com > num3_com){
+			printf(" El numero %d es el mayor", num1_com);
+		}else if (num2_com > num1_com && num2_com > num3_com){
+			printf(" El numero %d es el mayor", num2_com);
+		}else{
+			printf(" El numero %d es el mayor", num3_com);
+		}	
 	
 }
 int main(){
