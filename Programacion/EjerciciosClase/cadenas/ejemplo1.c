@@ -8,12 +8,12 @@ int main(){
 	scanf("%s", str1);
 	int caracter;
 	printf("Que caracter deseas modificar?: ");
-	scanf("%d", &caracter);
-	int sobreponer;
+	scanf(" %d", &caracter);
+	char sobreponer;
 	printf("Que quieres poner en su lugar?: ");
-	scanf("%d", &sobreponer);
+	scanf(" %c", &sobreponer);
 	
-	str1[caracter + 1] = sobreponer;
+	str1[caracter - 1] = sobreponer;
 
 	printf("%s\n", str1);
 
