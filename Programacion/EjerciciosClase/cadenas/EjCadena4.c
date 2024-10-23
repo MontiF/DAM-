@@ -7,7 +7,12 @@ int main(){
 	printf("Introduce una palabla: \n");
 	scanf("%s", str1);
 	 if (str1 == "gato"){
-	 	printf("\n", str1);
+	 	printf("
+				
+|\---/|
+| o_o |
+ \_^_/
+		\n", str1);
 	 } else if (str1 == "perro"){
 	 	printf(
 		 	"
@@ -15,8 +20,7 @@ int main(){
 (    @\___
 /         O
 /   (_____/
-/_____/   U
-				
+/_____/   U			
 		\n", str1);
 	 }else{
 	 	printf("No es ni perro ni gato");
