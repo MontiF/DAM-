@@ -1,27 +1,29 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
+#include <stdlib.h>
 
-#define MAX_CHARTITULO 80
-#define MAX_CHARAUTOR 45
+#define MAX_TITULO 80
+#define MAX_AUTOR 43
+#define MAX_LIBROS 40
 
-typedef enum{
-	FICCION,
-	NO_FICCION,
-	POESIA,
-	TEATRO,
-	ENSAYO,
-}genero;
+typedef enum {
+    FICCION,
+    NO_FICCION,
+    POESIA,
+    TEATRO,
+    ENSAYO
+} Genero;
 
-typedef struct{
-	int id;
-	char titulo[MAX_CHARTITULO];
-	char autor[MAX_CHARAUTOR];
-	float precio;
-	genero tipoGenero;
-	int cantidad_disponible;
-}libro;
-	libro libros[40] = {
+typedef struct {
+    int id;
+    char titulo[MAX_TITULO];
+    char autor[MAX_AUTOR];
+    float precio;
+    Genero genero;
+    int cantidad;
+} Libro;
+
+Libro libros[MAX_LIBROS] = {
         {1, "To Kill a Mockingbird", "Harper Lee", 15.99, FICCION, 10},
         {2, "1984", "George Orwell", 12.49, FICCION, 5},
         {3, "The Great Gatsby", "F. Scott Fitzgerald", 10.99, FICCION, 8},
@@ -64,13 +66,72 @@ typedef struct{
         {40, "Thus Spoke Zarathustra", "Friedrich Nietzsche", 14.99, ENSAYO, 10}
     }; 
 
-void mostrar_todo(){
-	
-
+const char* obtenerNombreGenero(Genero gen) {
+    switch (gen) {
+        case FICCION: return "Ficción";
+        case NO_FICCION: return "No Ficción";
+        case POESIA: return "Poesía";
+        case TEATRO: return "Teatro";
+        case ENSAYO: return "Ensayo";
+        default: return "Desconocido";
+    }
 }
-int main(){
+
+void mostrarLibro(const Libro* libro) {
+    printf("ID: %d\n Título: %s\n Autor: %s\n Precio: %.2f\n Género: %s\n Cantidad: %d \n",
+           libro->id, libro->titulo, libro->autor, libro->precio,
+           obtenerNombreGenero(libro->genero), libro->cantidad);
+}
+
+Libro* buscarLibroPorId(int id) {
+    for (int i = 0; i < MAX_LIBROS; ++i) {
+        if (libros[i].id == id) return &libros[i];
+    }
+    return NULL;
+}
+
+void mostrarTodosLosLibros() {
+    for (int i = 0; i < MAX_LIBROS; ++i) {
+        mostrarLibro(&libros[i]);
+    }
+}
+
+void mostrarLibroPorId(int id) {
+    Libro* libro = buscarLibroPorId(id);
+    if (libro != NULL) {
+        mostrarLibro(libro);
+    } else {
+        printf("No se encontró el libro con ID %d.\n", id);
+    }
+}
 
 
-	
+
+
+
+int main(int argc, char* argv[]) {
+    if (argc < 2) {
+        printf("Pon en ./bibioteca [lo que quieres hacer] [argumentos] \n");
+        return 1;
+    }
+
+    if (strcmp(argv[1], "mostrar") == 0) {
+        if (argc == 2) {
+            mostrarTodosLosLibros();
+        } else if (argc == 3) {
+            int id = atoi(argv[2]);
+            mostrarLibroPorId(id);
+        }
+    } else if(strcmp(argv[1], "stock") == 0){
+    		if(argc == 2){
+    			printf("te falta el argumento ID")
+    		}else if(argc == 3){
+    			printf("te falta el argummento de cantidad que quieres")
+    		}else if(argc == 4){
+    			
+    		}
+
+    }
+
 	return 0;
 }
