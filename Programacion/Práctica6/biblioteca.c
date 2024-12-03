@@ -8,7 +8,7 @@
 
 typedef enum {
     FICCION,
-    NO_FICCION,
+    NO_FICCION,				
     POESIA,
     TEATRO,
     ENSAYO
@@ -16,7 +16,7 @@ typedef enum {
 
 typedef struct {
     int id;
-    char titulo[MAX_TITULO];
+    char titulo[MAX_TITULO];			
     char autor[MAX_AUTOR];
     float precio;
     Genero genero;
@@ -105,9 +105,31 @@ void mostrarLibroPorId(int id) {
     }
 }
 
+void actualizarStock(int id, int cantidad) {
+    Libro* libro = buscarLibroPorId(id);
+    if (libro != NULL) {
+        libro->cantidad += cantidad;
+        printf("Stock actualizado para '%s': %d\n", libro->titulo, libro->cantidad);
+    } else {
+        printf("No se encontró el libro con ID %d.\n", id);
+    }
+}
 
+void mostrarLibrosPorGenero(Genero gen) {
+    for (int i = 0; i < MAX_LIBROS; ++i) {
+        if (libros[i].genero == gen) {
+            mostrarLibro(&libros[i]);
+        }
+    }
+}
 
-
+void mostrarLibrosPorAutor(const char* autor) {
+    for (int i = 0; i < MAX_LIBROS; ++i) {
+        if (strcmp(libros[i].autor, autor) == 0) {
+            mostrarLibro(&libros[i]);
+        }
+    }
+}
 
 int main(int argc, char* argv[]) {
     if (argc < 2) {
@@ -122,16 +144,32 @@ int main(int argc, char* argv[]) {
             int id = atoi(argv[2]);
             mostrarLibroPorId(id);
         }
-    } else if(strcmp(argv[1], "stock") == 0){
-    		if(argc == 2){
-    			printf("te falta el argumento ID")
-    		}else if(argc == 3){
-    			printf("te falta el argummento de cantidad que quieres")
-    		}else if(argc == 4){
-    			
-    		}
+    } else if(strcmp(argv[1], "stock") == 0) {
+    	if (argc == 2) {
+    		printf("Debes de poner ./biblioteca stock [ID CantidadAAñadir]\n ");
+    	}else if(argc == 3){
+    		printf("Debes de poner ./biblioteca stock [ID CantidadAAñadir]\n ");
+    	}else if (argc == 4){
+    		int id = atoi(argv[2]);
+        	int cantidad = atoi(argv[3]);
+        	actualizarStock(id, cantidad);
+    	}
+    } else if(strcmp(argv[1], "categoria") == 0) {
+    	if (argc == 2) {
+    		printf("Debes de poner ./biblioteca categoria [Categoria 0 1 2 3 4]\n" );
+    	} else if(argc == 3){
+    		Genero gen = atoi(argv[2]);  
+        	mostrarLibrosPorGenero(gen);
+    	}
+    } else if(strcmp(argv[1], "autor") == 0) {
+    	if (argc == 2) {
+    		printf("Debes de poner ./biblioteca autor [NombreAutor]\n");
+    	} else if (argc == 3 ){
 
-    }
+    	}
+    }	
+
+
 
 	return 0;
 }
