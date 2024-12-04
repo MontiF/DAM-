@@ -134,7 +134,7 @@ void mostrarLibrosPorAutor(const char* autor) {
 int main(int argc, char* argv[]) {
     if (argc < 2) {
         printf("Pon en ./bibioteca [lo que quieres hacer] [argumentos] \n");
-        return 1;
+        return 0;
     }
 
     if (strcmp(argv[1], "mostrar") == 0) {
@@ -164,8 +164,8 @@ int main(int argc, char* argv[]) {
     } else if(strcmp(argv[1], "autor") == 0) {
     	if (argc == 2) {
     		printf("Debes de poner ./biblioteca autor [NombreAutor]\n");
-    	} else if (argc == 3 ){
-
+    	} else if (argc == 3){
+    		mostrarLibrosPorAutor(argv[2]);
     	}
     }	
 
