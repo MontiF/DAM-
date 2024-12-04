@@ -1,28 +1,30 @@
 #include <stdio.h>
-#include <string.h>
+#include <string.h>				//librerias
 #include <stdlib.h>
 
-#define MAX_TITULO 80
-#define MAX_AUTOR 43
-#define MAX_LIBROS 40
+#define MAX_TITULO 80		//declaración de maximo de caracteres del titulo
+#define MAX_AUTOR 43		//declaración de maximo de caracteres del autor
+#define MAX_LIBROS 40		//declaración del maximo de libros que puede haber
 
+//declaración del enum
 typedef enum {
-    FICCION,
-    NO_FICCION,				
-    POESIA,
-    TEATRO,
-    ENSAYO
+    FICCION,		//0
+    NO_FICCION,		//1		
+    POESIA,			//2
+    TEATRO,			//3
+    ENSAYO			//4
 } Genero;
 
+//declaración del struct
 typedef struct {
-    int id;
-    char titulo[MAX_TITULO];			
-    char autor[MAX_AUTOR];
-    float precio;
-    Genero genero;
-    int cantidad;
+    int id;						//id del libro
+    char titulo[MAX_TITULO];	//titulo del libro		
+    char autor[MAX_AUTOR];		//autor del libro
+    float precio;				//precio del libro
+    Genero genero;				//genero/categoria del libro
+    int cantidad;				//stock del libro 
 } Libro;
-
+//catalogo del libro
 Libro libros[MAX_LIBROS] = {
         {1, "To Kill a Mockingbird", "Harper Lee", 15.99, FICCION, 10},
         {2, "1984", "George Orwell", 12.49, FICCION, 5},
@@ -66,9 +68,9 @@ Libro libros[MAX_LIBROS] = {
         {40, "Thus Spoke Zarathustra", "Friedrich Nietzsche", 14.99, ENSAYO, 10}
     }; 
 
-const char* obtenerNombreGenero(Genero gen) {
+const char* obtenerNombreGenero(Genero gen) {				//Lo que hace esto es que en vez de que salga 0 1 2 3 4 a la hora de decir la categoria salga lo que es cada uno.
     switch (gen) {
-        case FICCION: return "Ficción";
+        case FICCION: return "Ficción";						
         case NO_FICCION: return "No Ficción";
         case POESIA: return "Poesía";
         case TEATRO: return "Teatro";
@@ -77,26 +79,26 @@ const char* obtenerNombreGenero(Genero gen) {
     }
 }
 
-void mostrarLibro(const Libro* libro) {
+void mostrarLibro(const Libro* libro) {						// Lo que hace es mostrar un libro.
     printf("ID: %d\n Título: %s\n Autor: %s\n Precio: %.2f\n Género: %s\n Cantidad: %d \n",
            libro->id, libro->titulo, libro->autor, libro->precio,
            obtenerNombreGenero(libro->genero), libro->cantidad);
 }
 
-Libro* buscarLibroPorId(int id) {
+void mostrarTodosLosLibros() {								//Lo que hace es un bucle que permite mostrar todos los libros llamando a la función mostrarLibros, ya que el bucle va desde el 0 hasta MAX_LIBROS que es 40 
     for (int i = 0; i < MAX_LIBROS; ++i) {
-        if (libros[i].id == id) return &libros[i];
+        mostrarLibro(&libros[i]);	
+    }
+}
+
+Libro* buscarLibroPorId(int id) {							//Se compara a ver si el id dado es correcto, si este es correcto se devuelve el mismo, sino se devuelve NULL.
+    for (int i = 0; i < MAX_LIBROS; ++i) {
+        if (libros[i].id == id) return &libros[i];	
     }
     return NULL;
 }
 
-void mostrarTodosLosLibros() {
-    for (int i = 0; i < MAX_LIBROS; ++i) {
-        mostrarLibro(&libros[i]);
-    }
-}
-
-void mostrarLibroPorId(int id) {
+void mostrarLibroPorId(int id) {							//Iguala libro a lo que le devuelva la función buscarLibroPorId pasandole el valor de id dado en el main, y si ha encontrado el libro la función entonces lo muestra, sino dice que no ha encontrado el id. 
     Libro* libro = buscarLibroPorId(id);
     if (libro != NULL) {
         mostrarLibro(libro);
@@ -105,7 +107,7 @@ void mostrarLibroPorId(int id) {
     }
 }
 
-void actualizarStock(int id, int cantidad) {
+void actualizarStock(int id, int cantidad) {				//Iguala libro a lo que devuelva la función buscarLibroPorId pasandole el valor de id dado en el main, si lo encuentra entonces se le suma a la cantidad del libro la el valor de cantidad dado en el main y haremos un printf mostrando el nuevo stock.
     Libro* libro = buscarLibroPorId(id);
     if (libro != NULL) {
         libro->cantidad += cantidad;
@@ -115,7 +117,7 @@ void actualizarStock(int id, int cantidad) {
     }
 }
 
-void mostrarLibrosPorGenero(Genero gen) {
+void mostrarLibrosPorGenero(Genero gen) {					//Un bucle en el que si el genero de un libro es igual al dado por el usuario en el main lo muestre.
     for (int i = 0; i < MAX_LIBROS; ++i) {
         if (libros[i].genero == gen) {
             mostrarLibro(&libros[i]);
@@ -123,49 +125,51 @@ void mostrarLibrosPorGenero(Genero gen) {
     }
 }
 
-void mostrarLibrosPorAutor(const char* autor) {
+void mostrarLibrosPorAutor(const char* autor) {				//Un bucle en el que si el autor de un libro es igual al dado por el usuario en el main lo muestre.
     for (int i = 0; i < MAX_LIBROS; ++i) {
-        if (strcmp(libros[i].autor, autor) == 0) {
+        if (strcmp(libros[i].autor, autor) == 0) {			//Se compara el autor con el strcpm que permite comparar cadenas. 
             mostrarLibro(&libros[i]);
         }
     }
 }
 
+
+// para que podamos poner los argumentos antes de iniciar el programas es decir poner ./biblioteca [argumentos], necesitaremos poner en el int main (int argc, char* arch[]).
 int main(int argc, char* argv[]) {
     if (argc < 2) {
-        printf("Pon en ./bibioteca [lo que quieres hacer] [argumentos] \n");
-        return 0;
+        printf("Pon en ./bibioteca [lo que quieres hacer] [argumentos] \n");		// hay que tener en cuenta que el primer argumento que coge es ./biblioteca, por lo que si ponemos solo esto nos saltara el printf de como hay que poner para iniciar el programa.	
+        return 0;																	
     }
 
-    if (strcmp(argv[1], "mostrar") == 0) {
-        if (argc == 2) {
-            mostrarTodosLosLibros();
+    if (strcmp(argv[1], "mostrar") == 0) {			//Lo que hace es comparar el primer argumento dado con la palabra mostrar y si son iguales entonces hara lo que hay dentro del if.
+        if (argc == 2) {							
+            mostrarTodosLosLibros();				//Aqui comprobamos si hay más argumentos aparte de de mostrar para saber si llamar a mostarTosdosLosLibros, o a mostrarLibroPorId.		
         } else if (argc == 3) {
-            int id = atoi(argv[2]);
-            mostrarLibroPorId(id);
+            int id = atoi(argv[2]);					//Lo que hace es declarar el int id con el tercer argumento.
+            mostrarLibroPorId(id);					//Llama a mostrarLibroPorId y le pasa el id a la funcion.
         }
-    } else if(strcmp(argv[1], "stock") == 0) {
-    	if (argc == 2) {
-    		printf("Debes de poner ./biblioteca stock [ID CantidadAAñadir]\n ");
-    	}else if(argc == 3){
-    		printf("Debes de poner ./biblioteca stock [ID CantidadAAñadir]\n ");
-    	}else if (argc == 4){
-    		int id = atoi(argv[2]);
-        	int cantidad = atoi(argv[3]);
-        	actualizarStock(id, cantidad);
+    } else if(strcmp(argv[1], "stock") == 0) {		//Lo que hace es comparar el primer argumento dado con la palabra stock y si son iguales entonces hara lo que hay dentro del if.
+    	if (argc == 2) {							//Comprueba si tiene los argumentos necesarios, sino te mostrara como ponerlos.
+    		printf("Debes de poner ./biblioteca stock [ID] [CantidadAAñadir]\n ");
+    	}else if(argc == 3){						//Comprueba si tiene los argumentos necesarios, sino te mostrara como ponerlos. 
+    		printf("Debes de poner ./biblioteca stock [ID] [CantidadAAñadir]\n ");
+    	}else if (argc == 4){						//Comprueba si tiene los argumentos necesarios.
+    		int id = atoi(argv[2]);					//Lo que hace es declarar el int id con el tercer argumento.
+        	int cantidad = atoi(argv[3]);			//Lo que hace es declarar el int cantidad con el cuarto argumento.
+        	actualizarStock(id, cantidad);			//LLama a la función actualizar stock y le pasa id y cantidad a la función.
     	}
-    } else if(strcmp(argv[1], "categoria") == 0) {
-    	if (argc == 2) {
+    } else if(strcmp(argv[1], "categoria") == 0) {	//Lo que hace es comparar el primer argumento dado con la palabra categoria y si son iguales entonces hara lo que hay dentro del if.
+    	if (argc == 2) {							//Comprueba si tiene los argumentos necesarios, sino te mostrara como ponerlos. 
     		printf("Debes de poner ./biblioteca categoria [Categoria 0 1 2 3 4]\n" );
-    	} else if(argc == 3){
-    		Genero gen = atoi(argv[2]);  
-        	mostrarLibrosPorGenero(gen);
+    	} else if(argc == 3){						//Comprueba si tiene los argumentos necesarios.
+    		Genero gen = atoi(argv[2]);  			//Lo que hace es declarar gen con el tercer argumento.
+        	mostrarLibrosPorGenero(gen);			//Llama a la función mostrarLibroPorGenero.
     	}
-    } else if(strcmp(argv[1], "autor") == 0) {
-    	if (argc == 2) {
+    } else if(strcmp(argv[1], "autor") == 0) {		//Lo que hace es comparar el primer argumento dado con la palabra autor y si son iguales entonces hara lo que hay dentro del if.
+    	if (argc == 2) {							//Comprueba si tiene los argumentos necesarios, sino te mostrara como ponerlos .
     		printf("Debes de poner ./biblioteca autor [NombreAutor]\n");
-    	} else if (argc == 3){
-    		mostrarLibrosPorAutor(argv[2]);
+    	} else if (argc == 3){						//Comprueba si tiene los argumentos necesarios.
+    		mostrarLibrosPorAutor(argv[2]);			//Llama a la función mostrarLibrosPorAutor y le pasa el valor del tercer argumento.
     	}
     }	
 
