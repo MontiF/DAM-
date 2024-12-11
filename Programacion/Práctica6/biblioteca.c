@@ -9,7 +9,7 @@
 //declaración del enum
 typedef enum {
     FICCION,		//0
-    NO_FICCION,		//1		
+    NO_FICCION,		//1
     POESIA,			//2
     TEATRO,			//3
     ENSAYO			//4
@@ -18,7 +18,7 @@ typedef enum {
 //declaración del struct
 typedef struct {
     int id;						//id del libro
-    char titulo[MAX_TITULO];	//titulo del libro		
+    char titulo[MAX_TITULO];	//titulo del libro
     char autor[MAX_AUTOR];		//autor del libro
     float precio;				//precio del libro
     Genero genero;				//genero/categoria del libro
@@ -167,7 +167,7 @@ int main(int argc, char* argv[]) {
     	}
     } else if(strcmp(argv[1], "autor") == 0) {		//Lo que hace es comparar el primer argumento dado con la palabra autor y si son iguales entonces hara lo que hay dentro del if.
     	if (argc == 2) {							//Comprueba si tiene los argumentos necesarios, sino te mostrara como ponerlos .
-    		printf("Debes de poner ./biblioteca autor [""NombreAutor""]\n");
+    		printf("Debes de poner ./biblioteca autor [NombreAutor]\n");
     	} else if (argc == 3){						//Comprueba si tiene los argumentos necesarios.
     		mostrarLibrosPorAutor(argv[2]);			//Llama a la función mostrarLibrosPorAutor y le pasa el valor del tercer argumento.
     	}
