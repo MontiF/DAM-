@@ -188,7 +188,10 @@ int main(int argc, char* argv[]) {
         } else if (argc == 3){                      //Comprueba si tiene los argumentos necesarios.
             mostrarLibrosPorAutor(argv[2]);         //Llama a la función mostrarLibrosPorAutor y le pasa el valor del tercer argumento.
         }
-    }  else if(strcmp(argv[1], "eliminar") == 0){
+    }  else if(strcmp(argv[1], "añadir") == 0){
+        if (argc == 2) {
+            printf("Hay que hacerlo\n");
+    }   else if(strcmp(argv[1], "eliminar") == 0){
         if (argc == 2) {
             printf("Debes de poner ./biblioteca eliminar [id a eliminar]\n");
         } else if (argc == 3){
