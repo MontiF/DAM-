@@ -15,7 +15,7 @@ int main() {
         return 1;
     }
 
-    printf("Introduce una cadena (máximo %zu caracteres):\n", limite);
+    printf("Introduce una cadena (máximo 6 caracteres):\n", limite);
 
    
     free(cadena); 

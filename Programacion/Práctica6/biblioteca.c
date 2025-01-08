@@ -190,7 +190,8 @@ int main(int argc, char* argv[]) {
         }
     }  else if(strcmp(argv[1], "añadir") == 0){
         if (argc == 2) {
-            printf("Hay que hacerlo\n");
+            printf("Sin terminar\n");
+        }
     }   else if(strcmp(argv[1], "eliminar") == 0){
         if (argc == 2) {
             printf("Debes de poner ./biblioteca eliminar [id a eliminar]\n");
