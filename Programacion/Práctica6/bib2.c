@@ -104,8 +104,8 @@ void eliminarLibro(int id) {
 
 
 int main(int argc, char* argv[]) {
-    // Inicialización con algunos libros de ejemplo
-    Libro ejemplo[] = {
+    // Inicialización con algunos libros de Llibros
+    Libro Llibros[] = {
         {1, "To Kill a Mockingbird", "Harper Lee", 15.99, FICCION, 10},
         {2, "1984", "George Orwell", 12.49, FICCION, 5},
         {3, "The Great Gatsby", "F. Scott Fitzgerald", 10.99, FICCION, 8},
@@ -147,13 +147,13 @@ int main(int argc, char* argv[]) {
         {39, "The Republic", "Plato", 16.00, ENSAYO, 6},
         {40, "Thus Spoke Zarathustra", "Friedrich Nietzsche", 14.99, ENSAYO, 10}
     };
-    numLibros = sizeof(ejemplo) / sizeof(Libro);
+    numLibros = sizeof(Llibros) / sizeof(Libro);
     libros = malloc(numLibros * sizeof(Libro));
     if (libros == NULL) {
         printf("Error al asignar memoria inicial.\n");
         return EXIT_FAILURE;
     }
-    memcpy(libros, ejemplo, numLibros * sizeof(Libro));
+    memcpy(libros, Llibros, numLibros * sizeof(Libro));
 
     if (argc < 2) {
         printf("Pon en ./biblioteca [lo que quieres hacer] [argumentos] \n");
