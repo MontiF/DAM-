@@ -22,8 +22,8 @@ typedef struct {
     int cantidad;
 } Libro;
 
-Libro* libros = NULL;  // Puntero al arreglo dinámico de libros
-int numLibros = 0;     // Número actual de libros en el arreglo
+Libro* libros = NULL;  
+int numLibros = 0;     
 
 const char* obtenerNombreGenero(Genero gen) {
     switch (gen) {
@@ -92,10 +92,61 @@ void mostrarLibrosPorAutor(const char* autor) {
     }
 }
 
+void añadirLibro() {
+    char titulo[MAX_TITULO];
+    char autor[MAX_AUTOR];
+    float precio;
+    int genero;
+    int cantidad;
+
+    printf("Introduce el título del libro: ");
+    scanf(" %[^\n]", titulo);
+
+    printf("Introduce el autor del libro: ");
+    scanf(" %[^\n]", autor);
+
+    printf("Introduce el precio del libro: ");
+    scanf("%f", &precio);
+
+    printf("Introduce el género del libro (0: Ficción, 1: No Ficción, 2: Poesía, 3: Teatro, 4: Ensayo): ");
+    scanf("%d", &genero);
+
+    printf("Introduce la cantidad disponible del libro: ");
+    scanf("%d", &cantidad);
+
+    
+    if (genero < 0 || genero > 4) {
+        printf("Género no válido. Operación cancelada.\n");
+        return;
+    }
+
+  
+    int nuevoId = (numLibros == 0) ? 1 : libros[numLibros - 1].id + 1;
+
+
+    Libro* nuevoArreglo = realloc(libros, (numLibros + 1) * sizeof(Libro));
+    if (nuevoArreglo == NULL) {
+        printf("Error al asignar memoria para el nuevo libro.\n");
+        return;
+    }
+    libros = nuevoArreglo;
+
+
+    libros[numLibros].id = nuevoId;
+    strncpy(libros[numLibros].titulo, titulo, MAX_TITULO);
+    strncpy(libros[numLibros].autor, autor, MAX_AUTOR);
+    libros[numLibros].precio = precio;
+    libros[numLibros].genero = (Genero)genero;
+    libros[numLibros].cantidad = cantidad;
+
+    numLibros++;
+    printf("Libro añadido exitosamente con ID %d.\n", nuevoId);
+}
+
 void eliminarLibro(int id) {
     Libro* libro = buscarLibroPorId(id);
     if (libro != NULL) {
-        libro->id = 0;  // Marcamos el libro como eliminado
+        libro->id = 0;  
         printf("El libro con ID %d ha sido eliminado.\n", id);
     } else {
         printf("No se encontró el libro con ID %d para eliminar.\n", id);
@@ -104,7 +155,7 @@ void eliminarLibro(int id) {
 
 
 int main(int argc, char* argv[]) {
-    // Inicialización con algunos libros de Llibros
+   
     Libro Llibros[] = {
         {1, "To Kill a Mockingbird", "Harper Lee", 15.99, FICCION, 10},
         {2, "1984", "George Orwell", 12.49, FICCION, 5},
@@ -190,7 +241,8 @@ int main(int argc, char* argv[]) {
         }
     } else if(strcmp(argv[1], "añadir") == 0 ){
         if (argc == 2) {
-            printf("Aun sin terminar\n");
+            añadirLibro();
+            mostrarTodosLosLibros();
         }
     }
     else if (strcmp(argv[1], "eliminar") == 0) {
@@ -203,7 +255,7 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    // Liberar memoria antes de salir
+
     free(libros);
     return 0;
 }
