@@ -124,12 +124,12 @@ void añadirLibro() {
     int nuevoId = (numLibros == 0) ? 1 : libros[numLibros - 1].id + 1;
 
 
-    Libro* nuevoArreglo = realloc(libros, (numLibros + 1) * sizeof(Libro));
-    if (nuevoArreglo == NULL) {
+    Libro* nuevoArray = realloc(libros, (numLibros + 1) * sizeof(Libro));
+    if (nuevoArray == NULL) {
         printf("Error al asignar memoria para el nuevo libro.\n");
         return;
     }
-    libros = nuevoArreglo;
+    libros = nuevoArray;
 
 
     libros[numLibros].id = nuevoId;
