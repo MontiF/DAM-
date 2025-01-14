@@ -227,7 +227,7 @@ int main(int argc, char* argv[]) {
         return 1;    // Finaliza el programa
     }
 
-    // Copia los datos del array estático `Llibros` al arreglo dinámico `libros`
+    // Copia los datos del array estático `Llibros` al array dinámico `libros`
     memcpy(libros, Llibros, numLibros * sizeof(Libro));
 
     // Verifica si el programa fue ejecutado con suficientes argumentos
