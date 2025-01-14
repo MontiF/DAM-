@@ -2,9 +2,11 @@
 #include <string.h>
 #include <stdlib.h>
 
+// Constantes para los tamaños máximos de títulos y autores
 #define MAX_TITULO 80
 #define MAX_AUTOR 43
 
+// Definición de un tipo enumerado para representar los géneros
 typedef enum {
     FICCION,
     NO_FICCION,
@@ -13,18 +15,21 @@ typedef enum {
     ENSAYO
 } Genero;
 
+// Definición del struct de 'Libro' que contiene información sobre un libro
 typedef struct {
-    int id;
-    char titulo[MAX_TITULO];
-    char autor[MAX_AUTOR];
-    float precio;
-    Genero genero;
-    int cantidad;
+    int id;                     // ID del libro
+    char titulo[MAX_TITULO];    // Título del libro   
+    char autor[MAX_AUTOR];      // Autor del libro 
+    float precio;               // Precio del libro
+    Genero genero;              // Género del libro(Usando el enum)
+    int cantidad;               // Cantidad disponible
 } Libro;
 
+// Puntero para almacenar el array de libros y el número de libros
 Libro* libros = NULL;  
 int numLibros = 0;     
 
+// Función que devuelve el nombre del género literario como cadena (para que no salga 0 1 2 3 5 y salga el nombre directamente)
 const char* obtenerNombreGenero(Genero gen) {
     switch (gen) {
         case FICCION: return "Ficción";
@@ -36,71 +41,82 @@ const char* obtenerNombreGenero(Genero gen) {
     }
 }
 
+// Función para mostrar la información de un libro
 void mostrarLibro(const Libro* libro) {
     printf("ID: %d\n Título: %s\n Autor: %s\n Precio: %.2f\n Género: %s\n Cantidad: %d \n",
            libro->id, libro->titulo, libro->autor, libro->precio,
            obtenerNombreGenero(libro->genero), libro->cantidad);
 }
 
+// Función para mostrar la información de todos los libros
 void mostrarTodosLosLibros() {
     for (int i = 0; i < numLibros; ++i) {
-        if (libros[i].id != 0) {
-            mostrarLibro(&libros[i]);
+        if (libros[i].id != 0) {            // Ignora libros eliminados
+            mostrarLibro(&libros[i]);           // Muestra todos los libros llamando a la función de mostrarLibro
         }
     }
 }
 
+// Función para buscar un libro por su ID
 Libro* buscarLibroPorId(int id) {
-    for (int i = 0; i < numLibros; ++i) {
-        if (libros[i].id == id) return &libros[i];
+    for (int i = 0; i < numLibros; ++i) {   
+        if (libros[i].id == id) return &libros[i];      // Compara si el ÌD del libro es igual al deseado y si es así lo devuelve
     }
-    return NULL;
+    return NULL; // Devuelve NULL si no encuentra el libro
 }
 
+// Función para mostrar un libro específico por su ID
 void mostrarLibroPorId(int id) {
-    Libro* libro = buscarLibroPorId(id);
+    Libro* libro = buscarLibroPorId(id);    // Iguala el puntero libro a la dirección de memoria del ID encontrado
     if (libro != NULL) {
-        mostrarLibro(libro);
+        mostrarLibro(libro);    // Si no es NULL muestra el libro deseado
     } else {
-        printf("No se encontró el libro con ID %d.\n", id);
+        printf("No se encontró el libro con ID %d.\n", id); // Mensaje de error al no encontrar el libro
     }
 }
 
+
+// Función para actualizar el stock de un libro
 void actualizarStock(int id, int cantidad) {
-    Libro* libro = buscarLibroPorId(id);
+    Libro* libro = buscarLibroPorId(id);    // Iguala el puntero libro a la dirección de memoria del ID encontrado
     if (libro != NULL) {
-        libro->cantidad += cantidad;
+        libro->cantidad += cantidad;        // Si el libro no es NULL entonces suma la cantidad de ese libro más la cantidad específicada
         printf("Stock actualizado para '%s': %d\n", libro->titulo, libro->cantidad);
     } else {
-        printf("No se encontró el libro con ID %d.\n", id);
+        printf("No se encontró el libro con ID %d.\n", id); // Mensaje de error al no encontrar el libro
     }
 }
 
+// Función para mostrar libros de un género específico
 void mostrarLibrosPorGenero(Genero gen) {
     for (int i = 0; i < numLibros; ++i) {
-        if (libros[i].genero == gen) {
+        if (libros[i].genero == gen) {      // Compara si el genero del libro es igual al deseado y si es así muestra el libro 
             mostrarLibro(&libros[i]);
         }
     }
 }
 
+// Función para mostrar libros de un autor específico
 void mostrarLibrosPorAutor(const char* autor) {
     for (int i = 0; i < numLibros; ++i) {
-        if (strcmp(libros[i].autor, autor) == 0) {
+        if (strcmp(libros[i].autor, autor) == 0) {  // Compara si el autor del libro es igual al deseado y si es así muestra el libro 
             mostrarLibro(&libros[i]);
         }
     }
 }
 
+// Función para añadir un nuevo libro al inventario
 void añadirLibro() {
+    // Declaración de variables para los datos del nuevo libro
     char titulo[MAX_TITULO];
     char autor[MAX_AUTOR];
     float precio;
     int genero;
     int cantidad;
 
+    // Solicita al usuario los detalles del nuevo libro
     printf("Introduce el título del libro: ");
-    scanf(" %[^\n]", titulo);
+    scanf(" %[^\n]", titulo);       // %[^\n] permite leer una linea completa hasta encontrar un salto de linea o \n  lo que permite scanear espacios
 
     printf("Introduce el autor del libro: ");
     scanf(" %[^\n]", autor);
@@ -115,15 +131,15 @@ void añadirLibro() {
     scanf("%d", &cantidad);
 
     
-    if (genero < 0 || genero > 4) {
-        printf("Género no válido. Operación cancelada.\n");
+    if (genero < 0 || genero > 4) {         
+        printf("Género no válido. Operación cancelada.\n");     // Si el número dado en genero no es valido muestra mensaje de error
         return;
     }
 
-  
+    // Calcula el ID del nuevo libro comprobando cual es el ultimimo libro del anterior array y sumandole uno a este
     int nuevoId = (numLibros == 0) ? 1 : libros[numLibros - 1].id + 1;
 
-
+    // Redimensiona el array para incluir el nuevo libro
     Libro* nuevoArray = realloc(libros, (numLibros + 1) * sizeof(Libro));
     if (nuevoArray == NULL) {
         printf("Error al asignar memoria para el nuevo libro.\n");
@@ -131,7 +147,7 @@ void añadirLibro() {
     }
     libros = nuevoArray;
 
-
+    // Asigna los valores al nuevo libro
     libros[numLibros].id = nuevoId;
     strncpy(libros[numLibros].titulo, titulo, MAX_TITULO);
     strncpy(libros[numLibros].autor, autor, MAX_AUTOR);
@@ -139,14 +155,16 @@ void añadirLibro() {
     libros[numLibros].genero = (Genero)genero;
     libros[numLibros].cantidad = cantidad;
 
+    // Aumenta 1 el contador total de libros, ya qie se ha añadido uno nuevo al inventario
     numLibros++;
     printf("Libro añadido exitosamente con ID %d.\n", nuevoId);
 }
 
+// Función para eliminar un libro del inventario
 void eliminarLibro(int id) {
-    Libro* libro = buscarLibroPorId(id);
+    Libro* libro = buscarLibroPorId(id);    // Iguala el puntero libro a la dirección de memoria del ID encontrado
     if (libro != NULL) {
-        libro->id = 0;  
+        libro->id = 0;                      // Iguala el id del libro a 0 para que al mostrar todods los libros no lo lea
         printf("El libro con ID %d ha sido eliminado.\n", id);
     } else {
         printf("No se encontró el libro con ID %d para eliminar.\n", id);
@@ -155,7 +173,8 @@ void eliminarLibro(int id) {
 
 
 int main(int argc, char* argv[]) {
-   
+    
+    // Se define un array de libros predefinidos con sus datos iniciales
     Libro Llibros[] = {
         {1, "To Kill a Mockingbird", "Harper Lee", 15.99, FICCION, 10},
         {2, "1984", "George Orwell", 12.49, FICCION, 5},
@@ -198,64 +217,71 @@ int main(int argc, char* argv[]) {
         {39, "The Republic", "Plato", 16.00, ENSAYO, 6},
         {40, "Thus Spoke Zarathustra", "Friedrich Nietzsche", 14.99, ENSAYO, 10}
     };
+
+    // Calcula la cantidad de libros iniciales
     numLibros = sizeof(Llibros) / sizeof(Libro);
+    // Reserva memoria dinámica para almacenar los libros
     libros = malloc(numLibros * sizeof(Libro));
-    if (libros == NULL) {
+    if (libros == NULL) {       // Verifica si la asignación a fallado
         printf("Error al asignar memoria inicial.\n");
-        return EXIT_FAILURE;
+        return 1;    // Finaliza el programa
     }
+
+    // Copia los datos del array estático `Llibros` al arreglo dinámico `libros`
     memcpy(libros, Llibros, numLibros * sizeof(Libro));
 
+    // Verifica si el programa fue ejecutado con suficientes argumentos
     if (argc < 2) {
-        printf("Pon en ./biblioteca [lo que quieres hacer] [argumentos] \n");
-        return 0;
+        printf("Pon en ./biblioteca [lo que quieres hacer] [argumentos] \n");   // Muestra un mensaje de ayuda 
+        return 0;   // Finaliza el programa 
     }
 
+    // Procesa el primer argumento para determinar la acción a realizar
     if (strcmp(argv[1], "mostrar") == 0) {
-        if (argc == 2) {
+        if (argc == 2) {    // Si solo se pasa "mostrar", llama a la función mostrarTodosLosLibros
             mostrarTodosLosLibros();
-        } else if (argc == 3) {
-            int id = atoi(argv[2]);
+        } else if (argc == 3) {  // Si se pasa un segundo argumento, llama a la función MostrarLibroPorId
+            int id = atoi(argv[2]);  // Convierte el segundo argumento a Id
             mostrarLibroPorId(id);
         }
     } else if (strcmp(argv[1], "stock") == 0) {
-        if (argc == 4) {
-            int id = atoi(argv[2]);
-            int cantidad = atoi(argv[3]);
+        if (argc == 4) {    // Si se pasan 4 argumentos y el [1] es "stock" , llama a la función actualizarStock
+            int id = atoi(argv[2]);         // Convierte el segundo argumento a Id
+            int cantidad = atoi(argv[3]);   // Convierte el tercer argumento a cantidad
             actualizarStock(id, cantidad);
         } else {
-            printf("Debes de poner ./biblioteca stock [ID] [CantidadAAñadir]\n");
+            printf("Debes de poner ./biblioteca stock [ID] [CantidadAAñadir]\n");   // Muestra un mensaje de ayuda si los argumentos son incorrectos
         }
     } else if (strcmp(argv[1], "categoria") == 0) {
-        if (argc == 3) {
-            Genero gen = atoi(argv[2]);
+        if (argc == 3) {    // Si se pasan 3 argumentos y el [1] es "categoria" , llama a la función mostrarLibrosPorGenero
+            Genero gen = atoi(argv[2]); // Convierte el argumento a un género
             mostrarLibrosPorGenero(gen);
         } else {
-            printf("Debes de poner ./biblioteca categoria [Categoria 0 1 2 3 4]\n");
+            printf("Debes de poner ./biblioteca categoria [Categoria 0 1 2 3 4]\n");    // Muestra un mensaje de ayuda si los argumentos son incorrectos
         }
     } else if (strcmp(argv[1], "autor") == 0) {
-        if (argc == 3) {
+        if (argc == 3) {    // Si se pasan 3 argumentos y el [1] es "autor" , llama a la función mostrarLibrosPorAutor
             mostrarLibrosPorAutor(argv[2]);
         } else {
-            printf("Debes de poner ./biblioteca autor [NombreAutor]\n");
+            printf("Debes de poner ./biblioteca autor [NombreAutor]\n");            // Muestra un mensaje de ayuda si los argumentos son incorrectos
         }
     } else if(strcmp(argv[1], "añadir") == 0 ){
-        if (argc == 2) {
+        if (argc == 2) {    // Si solo se pasa "añadir", llama a la función añadirLibro y mostrarTodosLosLibros
             añadirLibro();
             mostrarTodosLosLibros();
         }
     }
     else if (strcmp(argv[1], "eliminar") == 0) {
-        if (argc == 3) {
-            int id = atoi(argv[2]);
+        if (argc == 3) {    // Si se pasan 3 argumentos y el [1] es "eliminar" , llama a la función
+            int id = atoi(argv[2]);  // Convierte el argumento a Id
             eliminarLibro(id);
             mostrarTodosLosLibros();
         } else {
-            printf("Debes de poner ./biblioteca eliminar [ID]\n");
+            printf("Debes de poner ./biblioteca eliminar [ID]\n");              // Muestra un mensaje de ayuda si los argumentos son incorrectos
         }
     }
 
 
-    free(libros);
+    free(libros);       //liberar libros
     return 0;
 }
