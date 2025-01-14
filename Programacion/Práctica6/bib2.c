@@ -232,7 +232,7 @@ int main(int argc, char* argv[]) {
 
     // Verifica si el programa fue ejecutado con suficientes argumentos
     if (argc < 2) {
-        printf("Pon en ./biblioteca [lo que quieres hacer] [argumentos] \n");   // Muestra un mensaje de ayuda 
+        printf(" Mostrar todos los libros: ./biblioteca mostrar \n Mostrar libro por id: ./biblioteca mostrar ID \n Sumar stock a un libro: ./biblioteca stock ID CantidadaAñadir \n Mostrar Libro por categoria: ./biblioteca categoria CategoriaDeseada(0-4) \n Mostrar por autor: ./biblioteca autor NombreAutor \n Añadir libro: ./biblioteca añadir \n Eliminar libro: ./biblioteca eliminar ID \n" );   // Muestra un mensaje de ayuda 
         return 0;   // Finaliza el programa 
     }
 
