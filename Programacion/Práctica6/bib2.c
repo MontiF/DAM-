@@ -121,7 +121,7 @@ int main(int argc, char* argv[]) {
 
     // Verifica si el programa fue ejecutado con suficientes argumentos
     if (argc < 2) {
-        printf(" Mostrar todos los libros: ./biblioteca mostrar \n Mostrar libro por id: ./biblioteca mostrar ID \n Sumar stock a un libro: ./biblioteca stock ID CantidadaAñadir \n Mostrar Libro por categoria: ./biblioteca categoria CategoriaDeseada(0-4) \n Mostrar por autor: ./biblioteca autor NombreAutor \n Añadir libro: ./biblioteca añadir \n Eliminar libro: ./biblioteca eliminar ID \n" );   // Muestra un mensaje de ayuda 
+        printf(" Mostrar todos los libros: ./biblioteca mostrar \n Mostrar libro por id: ./biblioteca mostrar ID \n Sumar stock a un libro: ./biblioteca stock ID CantidadaAñadir \n Mostrar Libro por categoria: ./biblioteca categoria CategoriaDeseada(1-5) \n Mostrar por autor: ./biblioteca autor NombreAutor \n Añadir libro: ./biblioteca añadir \n Eliminar libro: ./biblioteca eliminar ID \n" );   // Muestra un mensaje de ayuda 
         free(libros);    // Liberar libros
         return 0;   // Finaliza el programa 
     }
@@ -147,7 +147,7 @@ int main(int argc, char* argv[]) {
             Genero gen = atoi(argv[2]); // Convierte el argumento a un género
             mostrarLibrosPorGenero(gen);
         } else {
-            printf("Debes de poner ./biblioteca categoria [Categoria 0 1 2 3 4]\n");    // Muestra un mensaje de ayuda si los argumentos son incorrectos
+            printf("Debes de poner ./biblioteca categoria [Categoria (1: Ficción, 2: No Ficción, 3: Poesía, 4: Teatro, 5: Ensayo)]\n");    // Muestra un mensaje de ayuda si los argumentos son incorrectos
         }
     } else if (strcmp(argv[1], "autor") == 0) {
         if (argc == 3) {    // Si se pasan 3 argumentos y el [1] es "autor" , llama a la función mostrarLibrosPorAutor
@@ -167,8 +167,10 @@ int main(int argc, char* argv[]) {
             eliminarLibro(id);
             mostrarTodosLosLibros();
         } else {
-            printf("Debes de poner ./biblioteca eliminar [ID]\n");              // Muestra un mensaje de ayuda si los argumentos son incorrectos
+            printf("Debes de poner ./biblioteca eliminar [ID].\n");              // Muestra un mensaje de ayuda si los argumentos son incorrectos
         }
+    }else {
+        printf("Error: Comando desconocido.\n");
     }
 
 
@@ -215,25 +217,42 @@ Libro* buscarLibroPorId(int id) {
 }
 
 void mostrarLibroPorId(int id) {
+    if (id == 0) {
+        printf("Error: Debe de poner un ID válido.\n"); // Mensaje de error
+        return;
+    }
     Libro* libro = buscarLibroPorId(id);    // Iguala el puntero libro a la dirección de memoria del ID encontrado
     if (libro != NULL) {
         mostrarLibro(libro);    // Si no es NULL muestra el libro deseado
     } else {
-        printf("No se encontró el libro con ID %d.\n", id); // Mensaje de error al no encontrar el libro
+        printf("Error: No se encontró el libro con ID %d.\n", id); // Mensaje de error
     }
 }
 
 void actualizarStock(int id, int cantidad) {
+    if (id == 0) {
+        printf("Error: Debe de poner un ID válido.\n"); // Mensaje de error
+        return;
+    }
+    if (cantidad == 0) {
+        printf("Error: Debe de poner una cantidad a sumar/restar válida.\n");   // Mensaje de error
+        return;
+    }
     Libro* libro = buscarLibroPorId(id);    // Iguala el puntero libro a la dirección de memoria del ID encontrado
     if (libro != NULL) {
         libro->cantidad += cantidad;        // Si el libro no es NULL entonces suma la cantidad de ese libro más la cantidad específicada
         printf("Stock actualizado para '%s': %d\n", libro->titulo, libro->cantidad);
     } else {
-        printf("No se encontró el libro con ID %d.\n", id); // Mensaje de error al no encontrar el libro
+        printf("Error: No se encontró el libro con ID %d.\n", id); // Mensaje de error al no encontrar el libro
     }
 }
 
 void mostrarLibrosPorGenero(Genero gen) {
+    if (gen < 1 || gen > 5) {         
+        printf("Error: Género no válido (1-5).\n");     // Mensaje de error
+        return;
+    }
+    gen = gen - 1;
     for (int i = 0; i < numLibros; ++i) {
         if (libros[i].genero == gen) {      // Compara si el genero del libro es igual al deseado y si es así muestra el libro 
             mostrarLibro(&libros[i]);
@@ -242,10 +261,15 @@ void mostrarLibrosPorGenero(Genero gen) {
 }
 
 void mostrarLibrosPorAutor(const char* autor) {
+    int encontrado = 0;
     for (int i = 0; i < numLibros; ++i) {
         if (strcmp(libros[i].autor, autor) == 0) {  // Compara si el autor del libro es igual al deseado y si es así muestra el libro 
             mostrarLibro(&libros[i]);
+            int encontrado = 1;
         }
+    }
+    if (encontrado != 0) {  // Si ningún libro coincide
+        printf("Error: No se encontraron libros del autor \"%s\".\n", autor);
     }
 }
 
@@ -253,9 +277,9 @@ void añadirLibro() {
     // Declaración de variables para los datos del nuevo libro
     char titulo[MAX_TITULO];
     char autor[MAX_AUTOR];
-    float precio;
-    int genero;
-    int cantidad;
+    float precio = 0;
+    int genero = 0;
+    int cantidad = 0;
 
     // Solicita al usuario los detalles del nuevo libro
     printf("Introduce el título del libro: ");
@@ -266,18 +290,28 @@ void añadirLibro() {
 
     printf("Introduce el precio del libro: ");
     scanf("%f", &precio);
+    if (precio <= 0) {
+        printf("Error: Debe de poner un precio válido.\n"); // Mensaje de error
+        exit (1);
+    }
 
-    printf("Introduce el género del libro (0: Ficción, 1: No Ficción, 2: Poesía, 3: Teatro, 4: Ensayo): ");
+    printf("Introduce el género del libro (1: Ficción, 2: No Ficción, 3: Poesía, 4: Teatro, 5: Ensayo): ");
     scanf("%d", &genero);
+
+    if (genero < 1 || genero > 5) {         
+        printf("Error: Género no válido (1-5)\n");     // Si el número dado en genero no es valido muestra mensaje de error
+        exit (1);
+    }
+    genero = genero - 1;
 
     printf("Introduce la cantidad disponible del libro: ");
     scanf("%d", &cantidad);
-
-    
-    if (genero < 0 || genero > 4) {         
-        printf("Género no válido. Operación cancelada.\n");     // Si el número dado en genero no es valido muestra mensaje de error
-        return;
+    printf("Cantidad ingresada: %d\n", cantidad); // Para verificar lo que se ingresa
+    if (cantidad <= 0) {
+        printf("Error: Debe de poner una cantidad válida.\n"); // Mensaje de error
+        exit (1);
     }
+
 
     // Calcula el ID del nuevo libro comprobando cual es el ultimimo libro del anterior array y sumandole uno a este
     int nuevoId = (numLibros == 0) ? 1 : libros[numLibros - 1].id + 1;
@@ -285,8 +319,8 @@ void añadirLibro() {
     // Redimensiona el array para incluir el nuevo libro
     Libro* nuevoArray = realloc(libros, (numLibros + 1) * sizeof(Libro));
     if (nuevoArray == NULL) {
-        printf("Error al asignar memoria para el nuevo libro.\n");
-        return;
+        printf("Error al asignar memoria para el nuevo libro.\n");  // Mensaje de error
+        exit (1);
     }
     libros = nuevoArray;
 
@@ -304,11 +338,15 @@ void añadirLibro() {
 }
 
 void eliminarLibro(int id) {
+    if (id == 0 || id >= 40) {
+        printf("Error: Debe de poner un ID válido.\n"); // Mensaje de error
+        exit (1);
+    }
     Libro* libro = buscarLibroPorId(id);    // Iguala el puntero libro a la dirección de memoria del ID encontrado
     if (libro != NULL) {
         libro->id = 0;                      // Iguala el id del libro a 0 para que al mostrar todods los libros no lo lea
         printf("El libro con ID %d ha sido eliminado.\n", id);
     } else {
-        printf("No se encontró el libro con ID %d para eliminar.\n", id);
+        printf("Error: No se encontró el libro con ID %d.\n", id);  // Mensaje de error
     }
 }
