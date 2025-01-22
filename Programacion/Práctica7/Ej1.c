@@ -2,11 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-// Función de comparación (qsort)
-void quicksort(int *array, int inicio, int fin);
-// Función para realizar la partición
-int particion(int *array, int inicio, int fin);
-// Función para imprimir los valores ordenados
+void ordenar(int *array, int n);
 void imprimir(int *array, int n);
 
 int main(int argc, char *argv[]) {
@@ -22,7 +18,8 @@ int main(int argc, char *argv[]) {
         }
     } else {
         printf("Introduce el número de enteros: ");
-        if (scanf("%d", &n) != 1 || n <= 0) {
+        scanf("%d", &n);
+        if ( n != 1 || n <= 0) {
             printf("Error: Entrada inválida.\n");
             return 1;
         }
@@ -56,9 +53,8 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    // Ordenar el array usando qsort
-    quicksort(array, 0, n - 1);
-
+    // Ordenar los numeros
+    ordenar(array, n);
     // Imprimir el array ordenado
     imprimir(array, n);
 
@@ -68,35 +64,21 @@ int main(int argc, char *argv[]) {
     return 0;
 }
 
-void quicksort(int *array, int inicio, int fin) {
-    if (inicio < fin) {
-        int pivote = particion(array, inicio, fin);
-        quicksort(array, inicio, pivote - 1);
-        quicksort(array, pivote + 1, fin);
-    }
-}
+void ordenar(int *array, int n){
+int Copia = 0;    
+    for (int i = 0; i < n ; i++) {
+        for (int j = 0; j < n - i ; j++) {
+            if (array[j] < array[j + 1]) {
 
-
-int particion(int *array, int inicio, int fin) {
-    int pivote = array[fin]; // Elegir el último elemento como pivote
-    int i = inicio - 1;      // Índice para elementos menores que el pivote
-
-    for (int j = inicio; j < fin; j++) {
-        if (array[j] <= pivote) {
-            i++;
-            // Intercambiar array[i] y array[j]
-            int temp = array[i];
-            array[i] = array[j];
-            array[j] = temp;
+                Copia = array[j];
+                array[j] = array[j + 1];
+                array[j + 1] = Copia;
+            }
         }
     }
-    // Colocar el pivote en su posición correcta
-    int temp = array[i + 1];
-    array[i + 1] = array[fin];
-    array[fin] = temp;
-
-    return i + 1;
 }
+
+
 void imprimir(int *array, int n) {
      // Imprimir el array ordenado
     printf("Valores ordenados: \n");
