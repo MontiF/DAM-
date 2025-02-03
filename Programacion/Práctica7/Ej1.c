@@ -19,7 +19,7 @@ int main(int argc, char *argv[]) {
     } else {
         printf("Introduce el número de enteros: ");
         scanf("%d", &n);
-        if ( n != 1 || n <= 0) {
+        if ( n < 1) {
             printf("Error: Entrada inválida.\n");
             return 1;
         }
@@ -38,6 +38,10 @@ int main(int argc, char *argv[]) {
             printf("Error: No se proporcionaron suficientes valores.\n");
             free(array);
             return 1;
+        }else if(argc - 2 > n){
+            printf("Error: Se han proporcionado más valores de los indicados.\n");
+            free(array);
+            return 1;
         }
         for (int i = 0; i < n; i++) {
             array[i] = atoi(argv[i + 2]);
@@ -45,7 +49,8 @@ int main(int argc, char *argv[]) {
     } else {
         printf("Introduce %d enteros: \n", n);
         for (int i = 0; i < n; i++) {
-            if (scanf("%d", &array[i]) != 1) {
+            scanf("%d", &array[i]);
+            if (array[i] < 1) {
                 printf("Error: Entrada inválida.\n");
                 free(array);
                 return 1;

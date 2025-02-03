@@ -40,9 +40,14 @@ int n = 0;
 
     ordenarNotas(estudiantes, n);
 
+    printf("Estudiantes ordenados por nota:\n");
 	imprimirEstudiantes(estudiantes, n);
 
+    printf("\n");
 	ordenarApellido(estudiantes, n);
+
+    printf("Estudiantes ordenados por apellido:\n");
+    imprimirEstudiantes(estudiantes, n);
 
 
     free(estudiantes);
