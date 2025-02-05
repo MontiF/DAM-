@@ -40,7 +40,6 @@ int n = 0;
 
     ordenarNotas(estudiantes, n);
 
-    int eleccion = 0;
 
     printf("Estudiantes ordenados por nota:\n");
 	imprimirEstudiantes(estudiantes, n);
@@ -76,7 +75,7 @@ void preguntarEstudiantes(Estudiante *estudiantes, int n){
 
 void ordenarNotas(Estudiante *estudiantes, int n) {	
     for (int i = 0; i < n ; i++) {
-        for (int j = 0; j < n - i ; j++) {
+        for (int j = 0; j < n - i - 1; j++) {
             if (estudiantes[j].nota < estudiantes[j + 1].nota) {
 
                 Estudiante Copia = estudiantes[j];
@@ -89,8 +88,8 @@ void ordenarNotas(Estudiante *estudiantes, int n) {
 
 void ordenarApellido(Estudiante *estudiantes, int n){
     for (int i = 0; i < n ; i++) {
-        for (int j = 0; j < n - i ; j++) {
-            if (estudiantes[j].apellido < estudiantes[j + 1].apellido) {
+        for (int j = 0; j < n - i - 1; j++) {
+            if (strcmp(estudiantes[j].apellido, estudiantes[j + 1].apellido)) {
 
                 Estudiante Copia = estudiantes[j];
                 estudiantes[j] = estudiantes[j + 1];
