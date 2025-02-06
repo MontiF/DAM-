@@ -41,7 +41,9 @@ int main() {
 int esPrimo(int num) {
     if (num < 2) return 0; // Números menores que 2 no son primos
     for (int i = 2; i * i <= num; i++) {
-        if (num % i == 0) return 0; // Si es divisible por algún número, no es primo
+        if (num % i == 0){  // Si es divisible por algún número, no es primo
+        return 0;               
+        } 
     }
     return 1; // Si no encontró divisores, es primo
 }
