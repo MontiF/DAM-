@@ -6,12 +6,12 @@ void ordenar(int *array, int n);
 void imprimir(int *array, int n);
 
 int main(int argc, char *argv[]) {
-    int n; // Número de enteros
-    int *array; // Puntero para memoria dinámica
+    int n; 
+    int *array; 
 
-    // Verificar si se proporciona el número de enteros como argumento
+    
     if (argc > 1) {
-        n = atoi(argv[1]); // Convertir el argumento a entero
+        n = atoi(argv[1]); 
         if (n <= 0) {
             printf("Error: El número de enteros debe ser un positivo.\n");
             return 1;
@@ -25,14 +25,14 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    // Reservar memoria para el array
+
     array = (int *)malloc(n * sizeof(int));
     if (array == NULL) {
         printf("Error: No se pudo asignar memoria.\n");
         return 1;
     }
 
-    // Verificar si los valores se pasan como argumentos
+
     if (argc > 2) {
         if (argc - 2 < n) {
             printf("Error: No se proporcionaron suficientes valores.\n");
@@ -58,12 +58,11 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    // Ordenar los numeros
+
     ordenar(array, n);
-    // Imprimir el array ordenado
     imprimir(array, n);
 
-    // Liberar la memoria asignada
+ 
     free(array);
 
     return 0;

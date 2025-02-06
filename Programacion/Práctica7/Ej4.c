@@ -20,15 +20,15 @@ int main() {
 }
 
 int es_palindromo(const char *cadena) {
-    int izquierda = 0, derecha = strlen(cadena) - 1;  //crear indices uno que apunte al primer caracter de la cadena, y otro al ultimo
+    int izquierda = 0, derecha = strlen(cadena) - 1;  // Crear indices uno que apunte al primer caracter de la cadena, y otro al ultimo
     
-    while (izquierda < derecha) {           //entra al bucle solo si no se han cruzado ya los indices
-        if (tolower(cadena[izquierda]) != tolower(cadena[derecha])) {           //si no coinciden los caracteres significa que no es palindroma
+    while (izquierda < derecha) {           // Entra al bucle solo si no se han cruzado ya los indices
+        if (tolower(cadena[izquierda]) != tolower(cadena[derecha])) {           // Si no coinciden los caracteres significa que no es palindroma
             return 0;       
         }
         izquierda++;
         derecha--;
     }
-    return 1;           //si sale del bucle significa que es palindroma
+    return 1;           // Si sale del bucle significa que es palindroma
 }
 
