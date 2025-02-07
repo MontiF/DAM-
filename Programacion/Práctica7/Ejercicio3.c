@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <ctype.h>
+
 
 int main(int argc, char *argv[]){
 	int n = 10;
@@ -42,13 +44,42 @@ int main(int argc, char *argv[]){
     int x = n / 2, y = m / 2;
     tablero[x][y] = '#';
 
+    
+    char movimiento; 
+    do{
+    	system("clear");
 
-    for (int i = 0; i < n; i++) {
+    	for (int i = 0; i < n; i++) {
         for (int j = 0; j < m; j++) {
             printf("%c ", tablero[i][j]);
         }
         printf("\n");
     }
+
+    	printf("w = arriba , s = abajo , a = izquierda, d = derecha, q = finalizar \n");
+    	scanf("%c", &movimiento);
+    	movimiento = tolower(movimiento);
+
+    	if(movimiento == 'w' && x > 1){
+    		tablero[x][y] = ' ';
+    		tablero[x - 1][y] = '#';
+    		x = x - 1;
+    	}else if(movimiento == 's' && x < n - 2){
+    		tablero[x][y] = ' ';
+    		tablero[x + 1][y] = '#';
+    		x = x + 1;
+    	}else if (movimiento == 'a'  && y > 1){
+    		tablero[x][y] = ' ';
+    		tablero[x][y - 1] = '#';
+    		y = y - 1;
+    	}else if (movimiento == 'd' && y < m - 2){
+    		tablero[x][y] = ' ';
+    		tablero[x][y + 1] = '#';
+    		y = y + 1;
+    	}
+
+	}while(movimiento != 'q');
+    
 
     
     for (int i = 0; i < n; i++) {
