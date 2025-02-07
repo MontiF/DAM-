@@ -10,7 +10,7 @@ int main(int argc, char *argv[]){
 
     if (argc == 2) {
         n = atoi(argv[1]); 
-        if (n < 0) {
+        if (n < 3) {
             printf("Error: El numero debe de ser mayor o igual 3. \n");
             return 1;
      	}
