@@ -20,7 +20,8 @@ int main() {
     printf("Texto cifrado: %s\n", texto);
 
     
-    descifrarCesar(texto, clave);
+    //descifrarCesar(texto, clave);
+    cifrarCesar(texto, -clave);
     printf("Texto original (descifrado): %s\n", texto);
 
     return 0;

@@ -27,8 +27,21 @@ int main(int argc, char *argv[]){
      }
 
     char **tablero = (char **)malloc(n * sizeof(char *));
+    if (tablero == NULL)
+    {
+        printf("\n");
+        return  EXIT_FAILURE;
+    }
     for (int i = 0; i < n; i++) {
         tablero[i] = (char *)malloc(m * sizeof(char));
+        if(tablero [i] == NULL){
+            printf("\n");
+            for (int j = 0; j < i; ++j){
+                free(tablero[j]);
+            }            
+            free(tablero);
+            return  EXIT_FAILURE; 
+        }
     }
 
     for (int i = 0; i < n; i++) {

@@ -89,7 +89,7 @@ void ordenarNotas(Estudiante *estudiantes, int n) {
 void ordenarApellido(Estudiante *estudiantes, int n){
     for (int i = 0; i < n ; i++) {
         for (int j = 0; j < n - i - 1; j++) {
-            if (strcmp(estudiantes[j].apellido, estudiantes[j + 1].apellido)) {
+            if (strcmp(estudiantes[j].apellido, estudiantes[j + 1].apellido) > 0) {
 
                 Estudiante Copia = estudiantes[j];
                 estudiantes[j] = estudiantes[j + 1];
